@@ -1,0 +1,304 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{entry_name}}</title>
+<style type="text/css">
+body {
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	margin-left: 5%;
+	margin-top: 50px;
+	margin-right: 5%;
+	margin-bottom: 80px;
+}
+table {
+	border-collapse: collapse;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+td, th {
+	border: 1px solid black;
+	text-align: left;
+	vertical-align: top;
+}
+th {
+	background-color: #EDEDED;
+}
+table thead th {
+    border-collapse: separate;
+    border-spacing: 0;
+	background-color: #EDEDED;
+	position: sticky;
+	top: 0; /* Don't forget this, required for the stickiness */
+}
+div.scrollable_area {
+    width:100%;
+    height: 300px;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll
+}
+.rectangle {
+    width: 600px;
+    height: 40px; /* Set the desired height for your rectangle */
+    background: linear-gradient(90deg, rgba(5,5,18,1) 0%, rgba(89,9,121,1) 9%, rgba(31,39,132,1) 19%, rgba(35,109,177,1) 25%, rgba(60,146,189,1) 32%, rgba(1,110,67,1) 39%, rgba(39,117,35,1) 45%, rgba(62,175,57,1) 50%, rgba(106,235,100,1) 56%, rgba(207,244,98,1) 63%, rgba(238,235,4,1) 69%, rgba(242,161,13,1) 76%, rgba(240,36,28,1) 85%, rgba(126,29,25,1) 91%, rgba(99,48,46,1) 95%, rgba(171,171,171,1) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.left-text,
+.right-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px;
+}
+
+.left-text {
+    left: 10px;
+    background-color: rgba(5,5,18,1);
+    color: white;
+    border-radius: 5px;
+}
+
+.right-text {
+    right: 10px;
+    background-color: rgba(171,171,171,1);
+    color: black;
+    border-radius: 5px;
+}	
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> 
+<script src="https://cdn.rawgit.com/arose/ngl/v2.0.0/dist/ngl.js"></script>
+</head>
+
+<body>
+<div><span>{{navigation}}</span></div>
+<table width="100%" border="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td style="border: 0;"><h1>{{entry_name}}</h1>
+        <p>Page creation date: {{datetime}} <br>
+          Project folder: {{projectfolder}} <br>
+          Input sequences file: {{inputfile}}</p></td>
+      <td style="border: 0;"><br>
+        {{wordcloud}}</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Sequence information</h3>
+<table width="100%" border="1" cellpadding="5">
+  <tbody>
+    <tr>
+      <th width="20%" scope="row">Name</th>
+      <td width="80%">{{entry_name}}<br>
+        {{entry_id}} (pipeline id)</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Imported annotations</th>
+      <td width="80%">{{entry_imported_annotations}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Protein sequence</th>
+      <td width="80%" style="font-family: Consolas, Monaco, 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'Courier New', monospace;">{{entry_sequence}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Number of residues</th>
+      <td width="80%">{{entry_sequence_residue_n}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Molecular weight (Da)</th>
+      <td width="80%">{{entry_sequence_molecular_weight}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Output files</th>
+      <td width="80%">{{entry_fasta_filepath}}</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Putative domain architecture and protein family</h3>
+<h4>Search results (HHblits)<sup>1</sup></h4>
+<table width="100%" border="1" cellpadding="5">
+  <tbody>
+    <tr>
+      <th width="20%" scope="row">Domain family databases searched</th>
+      <td width="80%">{{domain_architecture_databases}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Results, scheme(s)<br>
+        (Top layers only; threshold {{domain_architecture_threshold}})</th>
+      <td width="80%">{{domain_architecture_plots}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Results, table<br>
+        (E-value ≤ {{domain_architecture_threshold}})</th>
+      <td width="80%">{{domain_architecture_table}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Top keywords<br>
+        (threshold {{domain_architecture_threshold}})</th>
+      <td width="80%">{{domain_architecture_keywords}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Output files</th>
+      <td width="80%">{{domain_architecture_filepaths}}</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Identical protein sequences/structures</h3>
+<h4>Search results</h4>
+<table width="100%" border="1" cellpadding="5">
+  <tbody>
+    <tr>
+      <th width="20%" scope="row">Protein sequence databases searched</th>
+      <td width="80%">{{identical_proteins_databases}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Identical proteins found</th>
+      <td width="80%">{{identical_proteins_table}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Top keywords</th>
+      <td width="80%">{{identical_proteins_keywords}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Output files</th>
+      <td width="80%">{{identical_proteins_filepaths}}</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Similar protein sequences/structures</h3>
+<h4>Sequence similarity search results (HHblits)<sup>1</sup></h4>
+<table width="100%" border="1" cellpadding="5">
+  <tbody>
+    <tr>
+      <th width="20%" scope="row">Sequence databases searched</th>
+      <td width="80%">{{similar_sequences_databases}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Results, scheme(s)<br>
+        (Top layers only, threshold {{similar_sequences_threshold}})</th>
+      <td width="80%">{{similar_sequences_plots}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Results, table(s)<br>
+        (threshold {{similar_sequences_threshold}})</th>
+      <td width="80%">{{similar_sequences_table}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Top keywords<br>
+        (threshold {{similar_sequences_threshold}})</th>
+      <td width="80%">{{similar_sequences_keywords}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Output files</th>
+      <td width="80%">{{similar_sequences_filepaths}}</td>
+    </tr>
+  </tbody>
+</table>
+<h4>Structure prediction (AlphaFold)<sup>2</sup></h4>
+<table width="100%" border="1" cellpadding="5">
+  <tbody>
+    <tr>
+      <th width="20%" scope="row">Stats</th>
+      <td width="80%">{{predicted_structure_plots}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Predicted structure</th>
+      <td width="80%" style="vertical-align: top;"><div id="pdbContainer" style="border: 1px solid black; width: 520px; height: 520px; border-radius: 7px; margin: 20px; float: left;"></div>
+        <div id="legend" style="background-color: #ECF3FC; padding: 20px; padding-right:40px; border-radius: 7px; margin-top: 20px; float: left;"> <b>NGL Viewer Controls:</b>
+          <ul>
+            <li>Center: <em>Left-Click</em></li>
+            <li>Rotate: <em>Left-Click + Drag</em></li>
+            <li>Translate: <em>Right-Click + Drag</em></li>
+            <li>Zoom: <em>Shift + Left-Click + Drag</em></li>
+          </ul>
+        </div>
+        <div style="clear: both;"></div></td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Output files</th>
+      <td width="80%">{{predicted_structure_filepaths}}</td>
+    </tr>
+  </tbody>
+</table>
+<h4>Structure similarity search results (Foldseek)<sup>3</sup></h4>
+<table width="100%" border="1" cellpadding="5">
+  <tbody>
+    <tr>
+      <th width="20%" scope="row">Structure databases searched</th>
+      <td width="80%">{{similar_structures_databases}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Results, scheme(s)<br>
+        (Top layers only, threshold {{similar_structures_threshold}})</th>
+      <td width="80%">{{similar_structures_plots}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Results, table<br>
+        (threshold {{similar_structures_threshold}})</th>
+      <td width="80%">{{similar_structures_results_table}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Top keywords<br>
+        (threshold {{similar_structures_threshold}})</th>
+      <td width="80%">{{similar_structures_keywords}}</td>
+    </tr>
+    <tr>
+      <th width="20%" scope="row">Output files</th>
+      <td width="80%">{{similar_structures_filepaths}}</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+<div><span>{{navigation}}</span></div>
+<br>
+<hr>
+<p style="color:#8D8D8D;"><strong>Sequence/structure alignments coloring</strong><br>
+  Each object in the alignment figures is colored according to its E-value following this color coding: <div class="rectangle">
+        <span class="left-text">1e-100</span>
+        <span class="right-text">10</span>
+    </div></p>
+<p style="color:#8D8D8D;"><strong>Contact/Questions:</strong><br>
+  Report generated with GAPS - Gene Annotation Pipeline from sequence and structure Similarity (<a href="https://github.com/hiller-lab">https://github.com/hiller-lab</a>). Contact: <a href="mailto:e.agustoni@unibas.ch">e.agustoni@unibas.ch</a></p>
+<p style="color:#8D8D8D;"><strong>References:</strong><br>
+  1) Steinegger M, Meier M, Mirdita M, Vöhringer H, Haunsberger S J, and Söding J (2019) HH-suite3 for fast remote homology detection and deep protein annotation, BMC Bioinformatics, 473. <a href="https://doi.org/10.1186/s12859-019-3019-7">doi: 10.1186/s12859-019-3019-7</a><br>
+  2) Jumper J, Evans R, Pritzel A, ..., Hassabis D (2021) Highly accurate protein structure prediction with AlphaFold, Nature, 596. <a href="https://doi.org/10.1038/s41586-021-03819-2">doi: 10.1038/s41586-021-03819-2</a><br>
+  3) van Kempen M, Kim S, Tumescheit C, Mirdita M, Lee J, Gilchrist CLM, Söding J, and Steinegger M (2023) Fast and accurate protein structure search with Foldseek. Nature Biotechnology. <a href="https://doi.org/10.1038/s41587-023-01773-0">doi: 10.1038/s41587-023-01773-0</a> </p>
+<script>
+        // Initialize the viewer inside the specified table cell
+        const stage = new NGL.Stage("pdbContainer", { backgroundColor: "#f5f5f5" });
+		
+		// Create custom coloring
+		var schemeId = NGL.ColormakerRegistry.addScheme(function (params) {
+		  this.atomColor = function (atom) {
+			if (atom.bfactor < 50) {
+			  return 0xF59738;
+			} else if (atom.bfactor >= 50 && atom.bfactor < 70) {
+			  return 0xFAD7A0;
+			} else if (atom.bfactor >= 70 && atom.bfactor < 90) {
+			  return 0xAED6F1;
+			} else if (atom.bfactor >= 90) {
+			  return 0x4287F5;
+			} else {
+			  return 0xFFFFFF;
+			}
+		  };
+		});
+
+        // Load the PDB file and create a representation
+        const fileContent = `{{predicted_structure_pdb}}`
+
+        stage.loadFile( new Blob([fileContent], {type: 'text/plain'}), { ext:'pdb' }).then(function (o) {
+            o.addRepresentation("cartoon", {colorScheme: schemeId});
+            o.autoView();
+
+        });
+    </script>
+</body>
+</html>

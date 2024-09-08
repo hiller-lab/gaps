@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Summary</title>
+<style type="text/css">
+body {
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	margin-left: 5%;
+	margin-top: 50px;
+	margin-right: 5%;
+	margin-bottom: 80px;
+}
+table {
+    border-collapse: collapse;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+td {
+    border: 1px solid black;
+	vertical-align: top;
+}
+th {
+	border: 1px solid black;
+	vertical-align: top;
+	position: sticky;
+	top: 0; /* Don't forget this, required for the stickiness */
+}
+
+.sub-table {
+		width: 100%;
+	}
+.sub-table td, th {
+	border: 0px solid white;
+	vertical-align: top;
+	padding-right: 10px;
+}
+.label-toggle-button {
+	display: flex;
+	justify-content: space-between;
+	align-items: top;
+}
+.rectangle {
+    width: 600px;
+    height: 40px; /* Set the desired height for your rectangle */
+    background: linear-gradient(90deg, rgba(5,5,18,1) 0%, rgba(89,9,121,1) 9%, rgba(31,39,132,1) 19%, rgba(35,109,177,1) 25%, rgba(60,146,189,1) 32%, rgba(1,110,67,1) 39%, rgba(39,117,35,1) 45%, rgba(62,175,57,1) 50%, rgba(106,235,100,1) 56%, rgba(207,244,98,1) 63%, rgba(238,235,4,1) 69%, rgba(242,161,13,1) 76%, rgba(240,36,28,1) 85%, rgba(126,29,25,1) 91%, rgba(99,48,46,1) 95%, rgba(171,171,171,1) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.left-text,
+.right-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px;
+}
+
+.left-text {
+    left: 10px;
+    background-color: rgba(5,5,18,1);
+    color: white;
+    border-radius: 5px;
+}
+
+.right-text {
+    right: 10px;
+    background-color: rgba(171,171,171,1);
+    color: black;
+    border-radius: 5px;
+}	
+
+</style>
+</head>
+
+<body>
+<h1>{{report_name}}</h1>
+<p>Page creation date: {{datetime}}
+<br>Project folder: {{projectfolder}}
+<br>Input sequences file: {{inputfile}}</p>
+	
+
+<details>
+	<summary><b>More information (click to expand)</b></summary>
+
+    <p style="color:#8D8D8D;"><strong>Table legend:</strong><br>
+  Entry name = Name of the protein sequence imported from the input file. Links to entry&rsquo;s highlight page.Click on the entry's name to see detailed information.<br>
+  DA = &lsquo;<u>D</u>omain <u>A</u>rchitecture’. The displayed value indicates the best score obtained by the search algorithm (HHblits/HH-suite3)<sup>1</sup>. The cell is colored in green if the value is better than the treshold {{domain_architecture_threshold}}<br>
+  IP = &lsquo;<u>I</u>dentical <u>P</u>roteins’. Value indicates how many proteins identical to the entry were found in sequence/structure databases. The cell is green if the value is greater than 0.<br>
+  SeS = &lsquo;<u>Se</u>quence <u>S</u>imilarity’. Value indicates the best score obtained by the search algorithm (HHblits/HH-suite3)<sup>1</sup>. The cell is green if the value is better than the threshold {{sequence_similarity_threshold}}<br>
+  StP = &lsquo;<u>St</u>ructure <u>P</u>rediction’. Value indicates the confidence score (= average pLDDT) obtained by the structure prediction algorithm (AlphaFold)<sup>2</sup>. The cell is green if the value is greater than 70 %.<br>
+  StS = &lsquo;<u>St</u>ructure <u>S</u>imilarity’. Value indicates the best score obtained by the search algorithm (FoldSeek)<sup>3</sup>. The cell is green if the value is better than the threshold {{structure_similarity_threshold}}<br>
+  Keywords = Major keywords retrieved from the analysis of DA, IP, SeS, StP and StS results. Annotations imported from the input file are not considered.<br>
+  Click on "Toggle Content" to display more information.</p>
+
+<p style="color:#8D8D8D;"><strong>Sequence/structure alignments coloring</strong><br>
+  Each object in the alignment figures is colored according to its E-value following this color coding: <div class="rectangle">
+        <span class="left-text">1e-100</span>
+        <span class="right-text">10</span>
+    </div></p>
+
+<p style="color:#8D8D8D;"><strong>Contact/Questions:</strong><br>
+  Report generated with GAPS - Gene Annotation Pipeline from sequence and structure Similarity (<a href="https://github.com/hiller-lab">https://github.com/hiller-lab</a>). Contact: <a href="mailto:e.agustoni@unibas.ch">e.agustoni@unibas.ch</a></p>
+	
+<p style="color:#8D8D8D;"><strong>References:</strong><br>
+  1) Steinegger M, Meier M, Mirdita M, Vöhringer H, Haunsberger S J, and Söding J (2019) HH-suite3 for fast remote homology detection and deep protein annotation, BMC Bioinformatics, 473. <a href="https://doi.org/10.1186/s12859-019-3019-7">doi: 10.1186/s12859-019-3019-7</a><br>
+  2) Jumper J, Evans R, Pritzel A, ..., Hassabis D (2021) Highly accurate protein structure prediction with AlphaFold, Nature, 596. <a href="https://doi.org/10.1038/s41586-021-03819-2">doi: 10.1038/s41586-021-03819-2</a><br>
+  3) van Kempen M, Kim S, Tumescheit C, Mirdita M, Lee J, Gilchrist CLM, Söding J, and Steinegger M (2023) Fast and accurate protein structure search with Foldseek. Nature Biotechnology. <a href="https://doi.org/10.1038/s41587-023-01773-0">doi: 10.1038/s41587-023-01773-0</a>
+	</p>
+</details><br><br>
+	
+<table border="1" cellspacing="0" cellpadding="5" width="100%">
+	<thead>
+	  <tr>
+		<th width="3%"  align="left" bgcolor="#0070C0" style="color:#FFFFFF;">#</th>
+		<th width="15%" align="left" bgcolor="#0070C0" style="color:#FFFFFF;">Entry name</th>
+		<th width="5%"  align="left" bgcolor="#0070C0" style="color:#FFFFFF;"><span title="'Domain Architecture'
+Each value indicates the best score obtained by this pipeline step.
+Green if score ≤ {{domain_architecture_threshold}}.">DA</span></th>
+		<th width="5%"  align="left" bgcolor="#0070C0" style="color:#FFFFFF;"><span title="'Identical Proteins'.
+Each value indicates how many results were found.
+Green if value > 0.">IP</span></th>
+		<th width="5%"  align="left" bgcolor="#0070C0" style="color:#FFFFFF;"><span title="'SEquence Similarity'.
+Each value indicates the best score obtained by this pipeline step.
+Green if score ≤ {{sequence_similarity_threshold}}.">SeS</span></th>
+		<th width="5%"  align="left" bgcolor="#0070C0" style="color:#FFFFFF;"><span title="'STructure Prediction'.
+Each value indicates the confidence score (in percent, %) obtained by this pipeline step.
+Green if value > 70%.">StP</span></th>
+		<th width="5%"  align="left" bgcolor="#0070C0" style="color:#FFFFFF;"><span title="'STructure Similarity'.
+Each value indicates the best score obtained by this pipeline step.
+Green if score ≤ {{structure_similarity_threshold}}.">StS</th>
+		<th width="57%" align="left" bgcolor="#0070C0" style="color:#FFFFFF;"><div class="label-toggle-button"><label for="toggleButton"><span title="Major keywords retrieved from the analysis of DA, IP, SeS, StP and StS results.">Keywords</span></label> <button id="toggleButton">Toggle Content</button></div></th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {{table_rows}}
+	</tbody>
+</table>
+
+
+<br>
+<hr>
+
+<p style="color:#8D8D8D;">Report generated with <b>GAPS</b> - Gene Annotation Pipeline from sequence and structure Similarity (<a href="https://github.com/hiller-lab">https://github.com/hiller-lab</a>).</p>
+
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButton = document.getElementById("toggleButton");
+            const contentAllList = document.querySelectorAll(".content-all");
+            const contentSingleList = document.querySelectorAll(".content-single");
+
+            let isContentAllVisible = true;
+
+            toggleButton.addEventListener("click", function() {
+                if (isContentAllVisible) {
+                    contentAllList.forEach(function(contentAll) {
+                        contentAll.style.display = "none";
+                    });
+                    contentSingleList.forEach(function(contentSingle) {
+                        contentSingle.style.display = "block";
+                    });
+                } else {
+                    contentAllList.forEach(function(contentAll) {
+                        contentAll.style.display = "block";
+                    });
+                    contentSingleList.forEach(function(contentSingle) {
+                        contentSingle.style.display = "none";
+                    });
+                }
+                isContentAllVisible = !isContentAllVisible;
+            });
+        });
+    </script>
+	
+</body>
+</html>
